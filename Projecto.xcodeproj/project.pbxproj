@@ -16,6 +16,7 @@
 		C37629A4292D2F7A004C7600 /* ProjectoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37629A3292D2F7A004C7600 /* ProjectoTests.swift */; };
 		C37629AE292D2F7A004C7600 /* ProjectoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37629AD292D2F7A004C7600 /* ProjectoUITests.swift */; };
 		C37629B0292D2F7A004C7600 /* ProjectoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37629AF292D2F7A004C7600 /* ProjectoUITestsLaunchTests.swift */; };
+		D507155E293669830079E4A2 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D507155D293669830079E4A2 /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		C37629A9292D2F7A004C7600 /* ProjectoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C37629AD292D2F7A004C7600 /* ProjectoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectoUITests.swift; sourceTree = "<group>"; };
 		C37629AF292D2F7A004C7600 /* ProjectoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D507155D293669830079E4A2 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,11 +100,12 @@
 		C376298C292D2F78004C7600 /* Projecto */ = {
 			isa = PBXGroup;
 			children = (
+				C3762998292D2F79004C7600 /* Projecto.xcdatamodeld */,
+				D507155D293669830079E4A2 /* CoreDataManager.swift */,
 				C376298D292D2F78004C7600 /* ProjectoApp.swift */,
 				C376298F292D2F78004C7600 /* ContentView.swift */,
 				C3762991292D2F79004C7600 /* Assets.xcassets */,
 				C3762996292D2F79004C7600 /* Persistence.swift */,
-				C3762998292D2F79004C7600 /* Projecto.xcdatamodeld */,
 				C3762993292D2F79004C7600 /* Preview Content */,
 			);
 			path = Projecto;
@@ -266,6 +269,7 @@
 				C3762997292D2F79004C7600 /* Persistence.swift in Sources */,
 				C3762990292D2F78004C7600 /* ContentView.swift in Sources */,
 				C376298E292D2F78004C7600 /* ProjectoApp.swift in Sources */,
+				D507155E293669830079E4A2 /* CoreDataManager.swift in Sources */,
 				C376299A292D2F79004C7600 /* Projecto.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

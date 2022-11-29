@@ -1,88 +1,115 @@
 //
 //  ContentView.swift
-//  Projecto
+//  emp
 //
-//  Created by CCDM13 on 22/11/22.
 //
 
 import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-
-    var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
-                    }
+    
+    let coreDM: CoreDataManager
+    @State var activo_opc = ""
+    @State var domicilio = ""
+    @State var empApeMat = ""
+    @State var empApePat = ""
+    @State var empId = ""
+    @State var puesto = ""
+    @State var telefono = ""
+    @State var seleccionado:Projecto?
+    @State var vigaArray = [Projecto]()
+    
+    var body: some View{
+        VStack{
+            TextField("Clave de empleado", text: $activo_opc)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            TextField("Domicilio", text: $domicilio)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            TextField("apellido materno", text: $empApeMat)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            TextField("apellido paterno", text: $empApePat)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            TextField("clave de empleado", text: $empId)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            TextField("Puesto", text: $puesto)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            TextField("telefono", text: $telefono)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            Button("SAVE"){
+                
+                if (seleccionado != nil){
+                    seleccionado?.activo_opc = activo_opc
+                    seleccionado?.domicilio = domicilio
+                    seleccionado?.empApeMat = empApeMat
+                    seleccionado?.empApePat = empApePat
+                    seleccionado?.empId = empId
+                    seleccionado?.puesto = puesto
+                    seleccionado?.telefono = telefono
+                    coreDM.actualizarViga(<#T##Projecto#>: seleccionado!)
+                }else{
+                    coreDM.guardarViga(clv_obra: clv_obra, clv_viga: clv_viga, longitud: longitud, material: material, peso: peso)
                 }
-                .onDelete(perform: deleteItems)
+                mostrarVigas()
+                activo_opc = ""
+                domicilio = ""
+                empApeMat = ""
+                empApePat = ""
+                empId = ""
+                puesto = ""
+                telefono = ""
+                seleccionado = nil
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
+            List{
+                ForEach(vigaArray, id: \.self){
+                pro in
+                VStack{
+                    Text(pro.activo_opc ?? "")
+                    Text(pro.domicilio ?? "")
+                    Text(pro.empApeMat ?? "")
+                    Text(pro.empApePat ?? "")
+                    Text(pro.empId ?? "")
+                    Text(pro.puesto ?? "")
+                    Text(pro.telefono ?? "")
                 }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
+                .onTapGesture {
+                    seleccionado = vig
+                    clv_viga = vig.clv_viga ?? ""
+                    clv_obra = vig.clv_obra ?? ""
+                    longitud = vig.longitud ?? ""
+                    material = vig.material ?? ""
+                    peso = vig.peso ?? ""
                 }
             }
-            Text("Select an item")
+            .onDelete(perform: {
+                indexSet in
+                indexSet.forEach({index in
+                    let viga = vigaArray[index]
+                    coreDM.borraViga(viga: viga)
+                    mostrarVigas()
+                })
+            })
         }
+        Spacer()
+    }.padding()
+        .onAppear(perform: {
+            mostrarVigas()
+        })
+        
     }
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
+    func mostrarVigas(){
+        vigaArray = coreDM.leerVigas()
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+struct ContentView_preViews: PreviewProvider{
+    static var previews: some View{
+        ContentView(coreDM: CoreDataManager())
     }
 }
+
+
+
+    
