@@ -46,7 +46,7 @@ struct ContentView: View {
                     seleccionado?.empId = empId
                     seleccionado?.puesto = puesto
                     seleccionado?.telefono = telefono
-                    coreDM.actualizarEmpleado(<#T##Projecto#>: seleccionado!)
+                    coreDM.actualizarEmpleado(Projecto: seleccionado!)
                 }else{
                     coreDM.guardarEmpleado(activo_opc:activo_opc,domicilio:domicilio,empApeMat:empApeMat,empApePat:empApePat,empId:empId,puesto:puesto,telefono:telefono)
                 }

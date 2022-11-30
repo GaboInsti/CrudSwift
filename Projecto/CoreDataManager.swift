@@ -21,14 +21,13 @@ class CoreDataManager{
             
         })
     }
-    func guardarEmpleado(activo_opc:String, domicilio:String, empApeMat:String, empApePat:String, empNombre:String, id:String, puesto:String, telefono:String ){
+    func guardarEmpleado(activo_opc:String, domicilio:String, empApeMat:String, empApePat:String, empId:String, puesto:String, telefono:String ){
         let emp = Projecto(context: persistentContainer.viewContext)
             emp.activo_opc = activo_opc
             emp.domicilio = domicilio
             emp.empApeMat = empApeMat
             emp.empApePat = empApePat
-            emp.empNombre = empNombre
-            emp.empID = empId
+            emp.empId = empId
             emp.puesto = puesto
             emp.telefono = telefono
         do{
@@ -50,8 +49,8 @@ class CoreDataManager{
         }
     }
     
-    func leerProjecto(clv_viga:String) -> Projecto?{
-        let fetchRequest : NSFetchRequest<Projecto> = Viga.fetchRequest()
+    func leerProjecto(empId:String) -> Projecto?{
+        let fetchRequest : NSFetchRequest<Projecto> = Projecto.fetchRequest()
         let predicate = NSPredicate(format: "empId = %@", empId)
         fetchRequest.predicate = predicate
         
@@ -65,7 +64,7 @@ class CoreDataManager{
         return nil
     }
     
-    func actualizarViga(Projecto: Projecto){
+    func actualizarProjecto(Projecto: Projecto){
         let fetchRequest : NSFetchRequest<Projecto> = Viga.fetchRequest()
         let predicate = NSPredicate(format: "empId = %@", Projecto.empId ?? "")
         fetchRequest.predicate = predicate
@@ -74,9 +73,12 @@ class CoreDataManager{
             let datos = try persistentContainer.viewContext.fetch(fetchRequest)
             let v = datos.first
             v?.activo_opc = Projecto.activo_opc
-            v?.longitud = Projecto.longitud
-            v?.material = Projecto.material
-            v?.peso = Projecto.peso
+            v?.domicilio = Projecto.domicilio
+            v?.empApeMat = Projecto.empApeMat
+            v?.empApePat = Projecto.empApePat
+            v?.empId = Projecto.empId 
+            v?.puesto = Projecto.activo_opc
+            v?.telefono = Projecto.activo_opc
             try persistentContainer.viewContext.save()
             print("Empleado actualizada")
         }catch{
@@ -84,7 +86,7 @@ class CoreDataManager{
         }
     }
     
-    func borraViga(Projecto:Projecto){
+    func borraProjecto(Projecto:Projecto){
         persistentContainer.viewContext.delete(Projecto)
     }
 }
