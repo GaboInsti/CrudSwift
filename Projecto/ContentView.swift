@@ -18,7 +18,7 @@ struct ContentView: View {
     @State var puesto = ""
     @State var telefono = ""
     @State var seleccionado:Projecto?
-    @State var vigaArray = [Projecto]()
+    @State var ProjectoArray = [Projecto]()
     
     var body: some View{
         VStack{
@@ -46,11 +46,11 @@ struct ContentView: View {
                     seleccionado?.empId = empId
                     seleccionado?.puesto = puesto
                     seleccionado?.telefono = telefono
-                    coreDM.actualizarViga(<#T##Projecto#>: seleccionado!)
+                    coreDM.actualizarEmpleado(<#T##Projecto#>: seleccionado!)
                 }else{
-                    coreDM.guardarViga(clv_obra: clv_obra, clv_viga: clv_viga, longitud: longitud, material: material, peso: peso)
+                    coreDM.guardarEmpleado(activo_opc:activo_opc,domicilio:domicilio,empApeMat:empApeMat,empApePat:empApePat,empId:empId,puesto:puesto,telefono:telefono)
                 }
-                mostrarVigas()
+                mostrarEmpleado()
                 activo_opc = ""
                 domicilio = ""
                 empApeMat = ""
@@ -61,7 +61,7 @@ struct ContentView: View {
                 seleccionado = nil
             }
             List{
-                ForEach(vigaArray, id: \.self){
+                ForEach(ProjectoArray, id: \.self){
                 pro in
                 VStack{
                     Text(pro.activo_opc ?? "")
@@ -73,33 +73,35 @@ struct ContentView: View {
                     Text(pro.telefono ?? "")
                 }
                 .onTapGesture {
-                    seleccionado = vig
-                    clv_viga = vig.clv_viga ?? ""
-                    clv_obra = vig.clv_obra ?? ""
-                    longitud = vig.longitud ?? ""
-                    material = vig.material ?? ""
-                    peso = vig.peso ?? ""
+                    seleccionado = pro
+                    activo_opc = pro.activo_opc ?? ""
+                    domicilio = pro.domicilio ?? ""
+                    empApeMat = pro.empApeMat ?? ""
+                    empApePat = pro.empApePat ?? ""
+                    empId = pro.empId ?? ""
+                    puesto = pro.puesto ?? ""
+                    telefono = pro.telefono ?? ""
                 }
             }
             .onDelete(perform: {
                 indexSet in
                 indexSet.forEach({index in
-                    let viga = vigaArray[index]
-                    coreDM.borraViga(viga: viga)
-                    mostrarVigas()
+                    let Projecto = ProjectoArray[index]
+                    coreDM.borraProjecto(Projecto: Projecto)
+                    mostrarProjecto()
                 })
             })
         }
         Spacer()
     }.padding()
         .onAppear(perform: {
-            mostrarVigas()
+            mostrarProjecto()
         })
         
     }
 
-    func mostrarVigas(){
-        vigaArray = coreDM.leerVigas()
+    func mostrarProjecto(){
+        ProjectoArray = coreDM.leerProjecto()
     }
 }
 
