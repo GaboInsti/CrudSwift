@@ -17,12 +17,12 @@ struct ContentView: View {
     @State var empId = ""
     @State var puesto = ""
     @State var telefono = ""
-    @State var seleccionado:Projecto?
-    @State var ProjectoArray = [Projecto]()
+    @State var seleccionado:Empleado?
+    @State var ProjectoArray = [Empleado]()
     
     var body: some View{
         VStack{
-            TextField("Clave de empleado", text: $activo_opc)
+            TextField("activo", text: $activo_opc)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             TextField("Domicilio", text: $domicilio)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -46,7 +46,7 @@ struct ContentView: View {
                     seleccionado?.empId = empId
                     seleccionado?.puesto = puesto
                     seleccionado?.telefono = telefono
-                    coreDM.actualizarEmpleado(Projecto: seleccionado!)
+                    coreDM.actualizarEmpleado(empleado: seleccionado!)
                 }else{
                     coreDM.guardarEmpleado(activo_opc:activo_opc,domicilio:domicilio,empApeMat:empApeMat,empApePat:empApePat,empId:empId,puesto:puesto,telefono:telefono)
                 }
@@ -86,22 +86,22 @@ struct ContentView: View {
             .onDelete(perform: {
                 indexSet in
                 indexSet.forEach({index in
-                    let Projecto = ProjectoArray[index]
-                    coreDM.borraProjecto(Projecto: Projecto)
-                    mostrarProjecto()
+                    let empleado = ProjectoArray[index]
+                    coreDM.borraEmpleado(empleado: empleado)
+                    mostrarEmpleado()
                 })
             })
         }
         Spacer()
     }.padding()
         .onAppear(perform: {
-            mostrarProjecto()
+            mostrarEmpleado()
         })
         
     }
 
-    func mostrarProjecto(){
-        ProjectoArray = coreDM.leerProjecto()
+    func mostrarEmpleado(){
+        ProjectoArray = coreDM.leerEmpleado()
     }
 }
 
