@@ -77,8 +77,8 @@ class CoreDataManager{
             v?.empApeMat = empleado.empApeMat
             v?.empApePat = empleado.empApePat
             v?.empId = empleado.empId
-            v?.puesto = empleado.activo_opc
-            v?.telefono = empleado.activo_opc
+            v?.puesto = empleado.puesto
+            v?.telefono = empleado.telefono
             try persistentContainer.viewContext.save()
             print("Empleado actualizada")
         }catch{
